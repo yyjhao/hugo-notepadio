@@ -7,5 +7,7 @@
 </section>
 {{- partial "math.html" . -}}
 {{- partial "syntax.html" . -}}
-{{- template "_internal/google_analytics_async.html" . -}}
+{{- if not .Site.IsServer -}}
+    {{ template "_internal/google_analytics.html" . }}
+{{- end -}}
 {{- partial "custom-js.html" . -}}
