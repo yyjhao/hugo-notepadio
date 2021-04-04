@@ -5,18 +5,28 @@
 <div class="article-container">
     {{- partial "article-header.html" . -}}
     <article class="article markdown-body" {{- if $justify -}}style="text-align: justify;" {{- end -}}>
+        {{- partial "article-labels.html" . -}}
         {{- with .Params.cover -}}<p><img class="cover" src="{{- . | safeURL -}}" alt></p>{{- end -}}
         {{- .Content -}}
+
+        {{ if isset .Params "series" }}
+          {{$related := where .Site.RegularPages ".Params.series" "intersect" .Params.series }}
+          <h3>Posts in this Series</h3>
+          <ul>
+            {{ range $related.ByPublishDate }}
+            <li><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></li>
+            {{ end }}
+          </ul>
+        {{ end }}
     </article>
     
-    {{- partial "article-labels.html" . -}}
     {{- partial "article-share.html" . -}}
     {{- partial "article-license.html" . -}}
     {{- partial "article-author.html" . -}}
     {{- partial "article-extra.html" . -}}
+    {{- partial "article-bottom-navigation.html" . -}}
 </div>
 <div class="article bottom">
-  {{- partial "article-bottom-navigation.html" . -}}
   {{- partial "article-comments.html" . -}}
 </div>
 {{- end -}}
